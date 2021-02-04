@@ -5,7 +5,7 @@ function SubmitButton() {
 
   return(
     <div>
-      <button type="submit">Add Todo</button>
+      <button type="submit" className="btn btn-success">Add Todo</button>
     </div>
   )
 }

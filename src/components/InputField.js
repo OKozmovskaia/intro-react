@@ -5,7 +5,7 @@ function InputField() {
 
   return(
     <div>
-      <input type="text" placeholder="Type a new todo"></input>
+      <input className="form-control" type="text" placeholder="Type a new todo"></input>
     </div>
   )
 }

@@ -18,7 +18,9 @@ function EachToDo() {
 
   const [todos, setTodo] = useState(initialTodos);
 
-  const toggleCheckedTodo = index => {
+
+  // toggle checkboxes
+  function toggleCheckedTodo (index) {
     console.log("index: ", index)
     setTodo(currentToDoList => {
       currentToDoList.map(el => {

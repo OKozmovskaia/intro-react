@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
-import Todo from '../../../models/Todo';
+import axios from 'axios';
 
 function InputTodo() {
   const [todo, setTodo] = useState('');
+  const todoCompleted = false;
 
   // save newTodo
   function addNewTodo(event) {
     event.preventDefault();
-    console.log("todo: ", todo);
+
+    const newTodo = {
+      todo,
+      todoCompleted
+    };
+
+    axios
+      .post('http://localhost:5000/todos/add', newTodo)
+      .then(res => console.log(res.data));
 
     setTodo('');
   }

@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 5000;
@@ -33,9 +34,35 @@ todoRoutes.route("/").get((req,res) => {
       res.json(todoList);
     }
   })
+});
+
+todoRoutes.route("/add").post((req, res) => {
+  let todo = new Todo(req.body);
+  todo.save((err, todo) => {
+    if(err) {
+      console.log(err);
+      res.status(400).send("adding todo failed");
+    } else {
+      res.status(200).json({todo: "todo added"});
+    }
+  })
+});
+
+todoRoutes.route("delete/:id").post((req, res) => {
+  
+  Todo.deleteOne({_id: req.params.id}, err => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({todo: "todo deleted"})
+    }
+  })
 })
 
 app.use('/todos', todoRoutes);
+app.get('*', (req, res) => {
+	response.sendFile(path.join(__dirname, 'client/public', 'index.html'));
+});
 
 
 

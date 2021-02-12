@@ -10,8 +10,8 @@ function InputTodo() {
     event.preventDefault();
 
     const newTodo = {
-      todo,
-      todoCompleted
+      title: todo,
+      completed: todoCompleted
     };
 
     axios

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import EachTodo from './EachTodo';
 import axios from "axios";
 
-function ListOfTodos() {
+function TodoList() {
   const [todos, setTodos] = useState([""]);
   const [isLoading, setLoading] = useState(true);
 
@@ -31,7 +31,7 @@ function ListOfTodos() {
       <h3>Todos:</h3>
         <ul className="list-group list-group-flush">
           {todos.map(todo => {
-            return < EachTodo key={todo._id} todo={todo} />
+            return < EachTodo key={todo._id} todo={todo} />;
           })}
         </ul>
     </div>
@@ -40,4 +40,4 @@ function ListOfTodos() {
   )
 }
 
-export default ListOfTodos;
+export default TodoList;

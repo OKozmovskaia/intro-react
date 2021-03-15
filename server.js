@@ -23,21 +23,26 @@ connection.once("open", function() {
   console.log("MongoDB connected ...");
 })
 
+// define router
+const router = express.Router();
 
-const todoRoutes = express.Router();
+function success(res, payload) {
+  return res.status(200).json(payload);
+}
 
-todoRoutes.route("/").get((req,res) => {
-  Todo.find((err, todoList) => {
+router.get('/todos', (req,res) => {
+  Todo.find({}, function(err, todos) {
     if (err) {
-      console.log(err);
+        console.log(err);
     } else {
-      res.json(todoList);
+        res.json(todos);
     }
   })
 });
 
-todoRoutes.route("/add").post((req, res) => {
-  let todo = new Todo(req.body);
+router.post('/todos', (req, res) => {
+  console.log(req.body);
+  const todo = new Todo(req.body);
   todo.save((err, todo) => {
     if(err) {
       console.log(err);
@@ -48,9 +53,21 @@ todoRoutes.route("/add").post((req, res) => {
   })
 });
 
-todoRoutes.route("delete/:id").post((req, res) => {
+router.put('/todos/:id', async (req, res) => {
+  try {
+    const newTodo = await Todo.findByIdAndUpdate(req.params.id, req.body, {
+      new: true
+    });
+    return success(res, newTodo);
+  } catch (error) {
+    console.log(error);
+  }
   
-  Todo.deleteOne({_id: req.params.id}, err => {
+})
+
+router.delete('/todos/:id', (req, res) => {
+  
+  Todo.findByIdAndRemove(req.params.id, err => {
     if (err) {
       console.log(err);
     } else {
@@ -59,11 +76,6 @@ todoRoutes.route("delete/:id").post((req, res) => {
   })
 })
 
-app.use('/todos', todoRoutes);
-app.get('*', (req, res) => {
-	response.sendFile(path.join(__dirname, 'client/public', 'index.html'));
-});
-
-
+app.use('/', router);
 
 app.listen(PORT, () => console.log(`Server started on PORT ${PORT}`));

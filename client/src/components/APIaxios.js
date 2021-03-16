@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiURL = 'http://localhost:5000/todos/';
+const apiURL = 'https://todo-list-react-inro.herokuapp/todos/';
 
 async function getAllTodos () {
   const result = await axios.get(apiURL);

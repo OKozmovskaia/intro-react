@@ -15,7 +15,8 @@ app.use(bodyParser.json());
 mongoose.connect("mongodb+srv://Olga_K:Za8rCEZo0jAHNjfn@todo.l5zm9.mongodb.net/Todo?retryWrites=true&w=majority",{
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true
+  useCreateIndex: true,
+  useFindAndModify: true
   });
 
 const connection = mongoose.connection;
@@ -25,10 +26,6 @@ connection.once("open", function() {
 
 // define router
 const router = express.Router();
-
-function success(res, payload) {
-  return res.status(200).json(payload);
-}
 
 router.get('/todos', (req,res) => {
   Todo.find({}, function(err, todos) {
@@ -58,7 +55,7 @@ router.put('/todos/:id', async (req, res) => {
     const newTodo = await Todo.findByIdAndUpdate(req.params.id, req.body, {
       new: true
     });
-    return success(res, newTodo);
+    return res.status(200).json(newTodo);
   } catch (error) {
     console.log(error);
   }

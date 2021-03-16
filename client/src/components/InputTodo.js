@@ -8,7 +8,7 @@ function InputTodo() {
     e.preventDefault();
 
     if(!todo) {
-      alert('please enter something');
+      alert('Please enter something');
       return;
     }
 
